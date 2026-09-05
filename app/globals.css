@@ -1,0 +1,168 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans text-ink antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display font-extrabold tracking-tight leading-tight;
+  }
+
+  :focus-visible {
+    @apply outline outline-[3px] outline-orange outline-offset-2;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-bold text-[15px] rounded-xl px-6 py-3.5 transition select-none;
+  }
+
+  .btn-o {
+    @apply btn bg-orange text-white hover:bg-orangeD active:translate-y-px shadow-lg shadow-orange/30;
+  }
+
+  .btn-b {
+    @apply btn bg-blue text-white hover:bg-[#12457E];
+  }
+
+  .btn-out {
+    @apply btn bg-white text-ink border-[1.5px] border-line hover:border-blue hover:text-blue;
+  }
+
+  .btn-gh {
+    @apply btn bg-transparent text-white border-[1.5px] border-white/40 hover:border-white;
+  }
+
+  .btn-sm {
+    @apply px-3.5 py-2.5 text-[13px] rounded-lg;
+  }
+
+  .btn-xs {
+    @apply px-2.5 py-1.5 text-[12px] rounded-md;
+  }
+
+  .btn-danger {
+    @apply btn bg-bad text-white hover:bg-[#A33025];
+  }
+
+  .input {
+    @apply w-full border-[1.5px] border-line rounded-xl px-4 py-3 text-sm font-medium bg-white focus:border-blue focus:outline-none;
+  }
+
+  .label {
+    @apply block text-[13px] font-bold mb-1.5;
+  }
+
+  .card {
+    @apply bg-white border border-line rounded-2xl;
+  }
+
+  .tbl {
+    @apply w-full text-[13.5px] border-collapse;
+  }
+
+  .tbl th {
+    @apply text-left text-[11px] font-bold uppercase tracking-wider text-mut py-2.5 px-3 border-b-2 border-line;
+  }
+
+  .tbl td {
+    @apply py-3 px-3 border-b border-sky align-middle;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 font-bold text-[12px] px-3 py-1.5 rounded-full bg-sky text-blue hover:border-blue2 border border-transparent;
+  }
+
+  .chip-on {
+    @apply bg-navy text-white;
+  }
+
+  .b-open {
+    @apply bg-okBg text-ok;
+  }
+
+  .b-soon {
+    @apply bg-warnBg text-warn;
+  }
+
+  .b-closed {
+    @apply bg-badBg text-bad;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 font-bold text-[11.5px] px-2.5 py-1 rounded-full;
+  }
+
+  .badge::before {
+    content: "";
+    @apply w-2 h-2 rounded-full bg-current;
+  }
+
+  .stat-num {
+    @apply font-display font-extrabold text-navy leading-none;
+  }
+
+  .tag {
+    @apply inline-block font-bold text-[11px] px-2.5 py-1 rounded-full;
+  }
+
+  .t-ok {
+    @apply bg-okBg text-ok;
+  }
+
+  .t-warn {
+    @apply bg-warnBg text-warn;
+  }
+
+  .t-bad {
+    @apply bg-badBg text-bad;
+  }
+
+  .t-mut {
+    @apply bg-sky text-blue;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 200;
+}
+
+.skip-link:focus {
+  left: 8px;
+  top: 8px;
+}
+
+/* Animasi titik-titik untuk indikator sedang mengetik */
+.typing i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mut);
+  margin-right: 3px;
+  animation: blink 1s infinite;
+}
+
+.typing i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+    transform: translateY(-3px);
+  }
+}
+

@@ -1,0 +1,211 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  OPERATOR
+  EDITOR
+  VIEWER
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  VERIFIED
+  SELECTED
+  REJECTED
+  COMPLETED
+}
+
+enum Gender {
+  L
+  P
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(VIEWER)
+  status       String   @default("aktif")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model TrainingProgram {
+  id                String          @id
+  name              String          @unique
+  field             String
+  description       String
+  competencies      Json            @default("[]")
+  duration          String
+  quota             Int             @default(25)
+  minEducation      String          @default("SMA/SMK")
+  requirements      Json            @default("[]")
+  materials         Json            @default("[]")
+  facilities        Json            @default("[]")
+  softSkills        Json            @default("[]")
+  certificateNote   String
+  jobProspects      Json            @default("[]")
+  businessProspects Json            @default("[]")
+  image             String?
+  status            String          @default("aktif")
+  batches           TrainingBatch[]
+  applications      Application[]
+  alumni            Alumni[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model TrainingBatch {
+  id            String          @id @default(cuid())
+  programId     String
+  program       TrainingProgram @relation(fields: [programId], references: [id], onDelete: Cascade)
+  name          String
+  year          Int
+  quota         Int             @default(25)
+  regStart      DateTime        @db.Date
+  regEnd        DateTime        @db.Date
+  selectionDate DateTime?       @db.Date
+  startDate     DateTime?       @db.Date
+  endDate       DateTime?       @db.Date
+  applications  Application[]
+}
+
+model Participant {
+  id           String        @id @default(cuid())
+  nik          String        @unique
+  name         String
+  birthPlace   String?
+  birthDate    DateTime?     @db.Date
+  gender       Gender?
+  address      String
+  whatsapp     String
+  email        String
+  education    String
+  notes        String?
+  applications Application[]
+  createdAt    DateTime      @default(now())
+}
+
+model Application {
+  id             String            @id @default(cuid())
+  registrationNo String            @unique
+  participantId  String
+  participant    Participant       @relation(fields: [participantId], references: [id])
+  programId      String
+  program        TrainingProgram   @relation(fields: [programId], references: [id])
+  batchId        String
+  batch          TrainingBatch     @relation(fields: [batchId], references: [id])
+  submittedAt    DateTime          @default(now())
+  status         ApplicationStatus @default(SUBMITTED)
+  adminNote      String?
+}
+
+model Instructor {
+  id         String  @id @default(cuid())
+  name       String
+  field      String
+  bio        String
+  experience String
+  image      String?
+  status     String  @default("aktif")
+}
+
+model Alumni {
+  id          String          @id @default(cuid())
+  name        String
+  programId   String
+  program     TrainingProgram @relation(fields: [programId], references: [id])
+  year        Int
+  afterStatus String
+  job         String?
+  business    String?
+  story       String
+  image       String?
+  published   Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+}
+
+model Partner {
+  id          String  @id @default(cuid())
+  name        String
+  category    String
+  cooperation String
+  website     String?
+}
+
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  content     String
+  category    String
+  image       String?
+  status      String   @default("draft")
+  publishedAt DateTime @db.Date
+  author      String   @default("Tim Media BPVP")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  date        DateTime @db.Date
+  location    String
+  description String
+  image       String?
+}
+
+model Gallery {
+  id       String   @id @default(cuid())
+  title    String
+  category String
+  image    String
+  date     DateTime @db.Date @default(now())
+}
+
+model FAQ {
+  id       String @id @default(cuid())
+  question String
+  answer   String
+  category String
+  status   String @default("aktif")
+}
+
+model JobOpportunity {
+  id           String   @id @default(cuid())
+  position     String
+  company      String
+  location     String
+  field        String
+  type         String
+  description  String
+  requirements Json     @default("[]")
+  deadline     DateTime @db.Date
+  link         String
+  status       String   @default("aktif")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  actor     String
+  action    String
+  detail    String
+  ip        String?
+}
+
+model MediaFile {
+  id        String   @id @default(cuid())
+  mime      String
+  size      Int
+  data      Bytes
+  createdAt DateTime @default(now())
+}

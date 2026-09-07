@@ -146,7 +146,7 @@ model News {
   id          String   @id @default(cuid())
   title       String
   slug        String   @unique
-  content     String
+  content     String   @db.LongText
   category    String
   image       String?
   status      String   @default("draft")
@@ -168,13 +168,13 @@ model Gallery {
   title    String
   category String
   image    String
-  date     DateTime @db.Date @default(now())
+  date     DateTime @db.Date
 }
 
 model FAQ {
   id       String @id @default(cuid())
   question String
-  answer   String
+ answer String @db.Text
   category String
   status   String @default("aktif")
 }

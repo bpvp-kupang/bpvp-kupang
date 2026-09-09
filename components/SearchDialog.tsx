@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Search, X, GraduationCap, Newspaper, Award, Briefcase, CircleHelp } from "lucide-react";
+import { Search, X, GraduationCap, Newspaper, Briefcase } from "lucide-react";
 
-type Res = { programs: any[]; news: any[]; alumni: any[]; jobs: any[]; faq: any[] };
+type Res = { programs: any[]; news: any[]; jobs: any[] };
 
 export default function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [q, setQ] = useState("");
@@ -42,9 +42,7 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
   const items = res ? {
     program: res.programs.map((p: any) => ({ href: `/program/${p.id}`, label: p.name, sub: `${p.field} · ${p.duration}` })),
     news: res.news.map((n: any) => ({ href: `/berita/${n.slug}`, label: n.title, sub: n.category })),
-    alumni: res.alumni.map((a: any) => ({ href: "/alumni", label: a.name, sub: a.job || a.business || "Alumni" })),
     job: res.jobs.map((j: any) => ({ href: "/lowongan", label: j.position, sub: `${j.company} · ${j.location}` })),
-    faq: res.faq.map((f: any) => ({ href: "/faq", label: f.question, sub: f.category })),
   } : null;
 
   return (
@@ -52,7 +50,7 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
       <div className="bg-white rounded-2xl w-full max-w-2xl h-fit overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3 px-5 py-4 border-b border-line">
           <Search size={20} className="text-orange" />
-          <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Apa yang ingin Anda cari? (program, berita, alumni, lowongan…)" aria-label="Kata kunci" className="flex-1 text-lg font-semibold outline-none" />
+          <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Apa yang ingin Anda cari? (program, berita, lowongan…)" aria-label="Kata kunci" className="flex-1 text-lg font-semibold outline-none" />
           <button onClick={onClose} aria-label="Tutup" className="w-9 h-9 grid place-items-center rounded-lg border border-line"><X size={16} /></button>
         </div>
         <div className="max-h-[56vh] overflow-auto pb-3">
@@ -60,13 +58,11 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
             <>
               <G t="Program" icon={GraduationCap} items={items.program} />
               <G t="Berita" icon={Newspaper} items={items.news} />
-              <G t="Alumni" icon={Award} items={items.alumni} />
               <G t="Lowongan" icon={Briefcase} items={items.job} />
-              <G t="FAQ" icon={CircleHelp} items={items.faq} />
             </>
           )}
           {!items && <p className="px-5 py-4 text-mut text-sm">Coba: “barista”, “sertifikat”, “las”, “lowongan”… Tekan <b>Esc</b> untuk menutup.</p>}
-          {items && !res?.programs?.length && !res?.news?.length && !res?.alumni?.length && !res?.jobs?.length && !res?.faq?.length && (
+          {items && !res?.programs?.length && !res?.news?.length && !res?.jobs?.length && (
             <p className="px-5 py-4 text-mut text-sm">Tidak ditemukan hasil. Coba kata kunci lain, atau tanya <b>Asisten BPVP</b> di pojok kanan bawah.</p>
           )}
         </div>

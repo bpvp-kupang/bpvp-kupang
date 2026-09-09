@@ -16,7 +16,7 @@ export async function GET(_req: NextRequest, { params }: { params: { resource: s
   if (!s) return jerr("Sesi berakhir, silakan masuk kembali.", 401);
   const cfg = RES[params.resource];
   if (!cfg) return jerr("Koleksi tidak dikenal.", 404);
-  const rows = await (prisma as any)[cfg.model].findMany({ include: cfg.include, orderBy: cfg.order });
+  const rows = await (prisma as any)[cfg.model].findMany({ where: cfg.where, include: cfg.include, orderBy: cfg.order });
   return NextResponse.json({ rows: rows.map((r: any) => (cfg.strip ? cfg.strip(r) : r)) });
 }
 

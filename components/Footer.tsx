@@ -28,7 +28,6 @@ export default function Footer() {
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/profil">Mengenal BPVP</Link>
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/berita">Berita</Link>
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/galeri">Galeri</Link>
-          <Link className="block py-1 text-[13.5px] hover:text-white" href="/faq">FAQ</Link>
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/admin">Login Admin</Link>
         </div>
         <div><h4 className="text-white text-[15px] font-display mb-4">Kontak</h4>

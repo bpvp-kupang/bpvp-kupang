@@ -1,65 +1,79 @@
 ﻿import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { getSession } from "@/lib/auth";
+import fs from "fs/promises";
+import path from "path";
+import crypto from "crypto";
+
+export const runtime = "nodejs";
+
+const MAX_SIZE = 2 * 1024 * 1024; // 2 MB
 
 export async function POST(req: Request) {
-  const session = getSession();
-
-  if (!session) {
-    return NextResponse.json({ error: "Tidak berwenang." }, { status: 401 });
-  }
-
   try {
-    const { data: dataURL } = await req.json();
+    const body = await req.json();
 
-    if (!dataURL) {
+    if (!body?.data || typeof body.data !== "string") {
       return NextResponse.json(
-        { error: "Tidak ada berkas." },
+        { error: "File gambar tidak ditemukan." },
         { status: 400 }
       );
     }
 
-    const base64 = String(dataURL).split(",").pop() || "";
-    const buf = Buffer.from(base64, "base64");
+    const match = body.data.match(
+      /^data:image\/(jpeg|jpg|png|webp);base64,(.+)$/
+    );
 
-    if (buf.length < 100) {
+    if (!match) {
       return NextResponse.json(
-        { error: "Berkas tidak valid." },
+        {
+          error:
+            "Format gambar tidak valid. Gunakan JPG, JPEG, PNG, atau WEBP.",
+        },
         { status: 400 }
       );
     }
 
-    if (buf.length > 2 * 1024 * 1024) {
+    const extMap: Record<string, string> = {
+      jpeg: "jpg",
+      jpg: "jpg",
+      png: "png",
+      webp: "webp",
+    };
+
+    const ext = extMap[match[1]];
+    const buffer = Buffer.from(match[2], "base64");
+
+    if (buffer.length > MAX_SIZE) {
       return NextResponse.json(
-        { error: "Ukuran maksimal 2 MB." },
+        { error: "Ukuran gambar maksimal 2 MB." },
         { status: 400 }
       );
     }
 
-    const jpg = buf[0] === 0xff && buf[1] === 0xd8;
+    const uploadDir = path.join(
+      process.cwd(),
+      "public",
+      "program"
+    );
 
-    if (!jpg) {
-      return NextResponse.json(
-        { error: "Format berkas harus JPG." },
-        { status: 400 }
-      );
-    }
+    await fs.mkdir(uploadDir, { recursive: true });
 
-    const file = await prisma.mediaFile.create({
-      data: {
-        mime: "image/jpeg",
-        size: buf.length,
-        data: buf,
-      },
-    });
+    const filename = `program-${Date.now()}-${crypto
+      .randomBytes(4)
+      .toString("hex")}.${ext}`;
+
+    const filepath = path.join(uploadDir, filename);
+
+    await fs.writeFile(filepath, buffer);
 
     return NextResponse.json({
       ok: true,
-      id: file.id,
+      url: `/program/${filename}`,
     });
-  } catch {
+  } catch (error) {
+    console.error("UPLOAD ERROR:", error);
+
     return NextResponse.json(
-      { error: "Gagal memproses berkas." },
+      { error: "Gagal mengunggah gambar." },
       { status: 500 }
     );
   }

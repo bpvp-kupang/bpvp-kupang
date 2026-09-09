@@ -17,11 +17,8 @@ type Msg = {
 
 const CHIPS = [
   "Jadwal",
-  "Cara daftar",
   "Syarat",
   "Sertifikat",
-  "Cek status",
-  "Lowongan",
 ];
 
 export default function Chatbot() {

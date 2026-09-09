@@ -6,7 +6,7 @@ import { FIELDS } from "@/lib/constants";
 import ProgramCard from "@/components/ProgramCard";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Program Pelatihan", description: "Katalog 17 program pelatihan vokasi BPVP Kupang: digital, pariwisata, fashion, otomotif, dan teknik." };
+export const metadata = { title: "Program Pelatihan", description: "Katalog 10 program pelatihan vokasi BPVP Kupang tahun 2026." };
 
 export default async function ProgramPage({ searchParams }: { searchParams: { bidang?: string; q?: string } }) {
   const bidang = searchParams.bidang || "all";
@@ -23,7 +23,7 @@ export default async function ProgramPage({ searchParams }: { searchParams: { bi
   return (
     <section className="max-w-6xl mx-auto px-6 py-16">
       <p className="text-orange text-[12px] font-bold uppercase tracking-[.14em] mb-3.5">Katalog Program</p>
-      <h2 className="text-[clamp(26px,4vw,38px)] mb-3">{programs.length} program, lima bidang — <span className="text-orange">satu tujuan: kompeten.</span></h2>
+      <h2 className="text-[clamp(26px,4vw,38px)] mb-3">{programs.length} program pelatihan — <span className="text-orange">satu tujuan: kompeten.</span></h2>
       <p className="text-mut max-w-[640px] mb-8">Pilih bidang, atau langsung cari nama program. Kartu berlabel status menandakan batch yang sedang/akan dibuka.</p>
 
       <div className="flex flex-wrap gap-2.5 items-center mb-6">

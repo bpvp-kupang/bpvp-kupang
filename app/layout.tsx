@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s — BPVP Kupang",
   },
   description:
-    "Portal resmi BPVP Kupang: program pelatihan vokasi, jadwal, pendaftaran online, alumni, lowongan kerja, dan informasi layanan untuk masyarakat NTT.",
+    "Portal resmi BPVP Kupang: program pelatihan vokasi, jadwal, pendaftaran online, lowongan kerja, dan informasi layanan untuk masyarakat NTT.",
   keywords: [
     "BPVP Kupang",
     "Balai Pelatihan Vokasi Kupang",

@@ -16,6 +16,12 @@ export async function POST(req: NextRequest) {
     if (nama.length < 3) return NextResponse.json({ error: "Nama minimal 3 huruf." }, { status: 400 });
     if (!/^\d{16}$/.test(nik)) return NextResponse.json({ error: "NIK harus 16 digit." }, { status: 400 });
     if (!b.tanggalLahir) return NextResponse.json({ error: "Tanggal lahir wajib diisi." }, { status: 400 });
+    const birth = new Date(`${b.tanggalLahir}T00:00:00`);
+    const now = new Date();
+    let age = now.getFullYear() - birth.getFullYear();
+    const md = now.getMonth() - birth.getMonth();
+    if (md < 0 || (md === 0 && now.getDate() < birth.getDate())) age--;
+    if (!Number.isFinite(age) || age < 31) return NextResponse.json({ error: "Usia minimal peserta adalah 31 tahun." }, { status: 400 });
     if (b.gender !== "L" && b.gender !== "P") return NextResponse.json({ error: "Pilih jenis kelamin." }, { status: 400 });
     if (s(b.alamat, 300).length < 4) return NextResponse.json({ error: "Alamat wajib diisi." }, { status: 400 });
     if (!EMAIL.test(email)) return NextResponse.json({ error: "Email tidak valid." }, { status: 400 });
@@ -23,7 +29,7 @@ export async function POST(req: NextRequest) {
     if (!b.pendidikan) return NextResponse.json({ error: "Pilih pendidikan terakhir." }, { status: 400 });
 
     const batch = await prisma.trainingBatch.findUnique({ where: { id: s(b.batch_id, 40) }, include: { program: true } });
-    if (!batch || batch.programId !== b.program_id || batchStatus(batch) !== "open")
+    if (!batch || batch.year !== 2026 || batch.program.status !== "aktif" || batch.programId !== b.program_id || batchStatus(batch) !== "open" || batch.quota !== 16)
       return NextResponse.json({ error: "Batch tidak ditemukan atau pendaftarannya sedang tidak dibuka." }, { status: 400 });
 
     const dup = await prisma.application.findFirst({ where: { participant: { nik }, batchId: batch.id } });

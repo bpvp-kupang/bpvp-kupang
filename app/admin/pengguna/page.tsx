@@ -64,7 +64,7 @@ export default function PenggunaPage() {
       <div className="card p-6">
         <h3 className="text-base mb-4">Matriks peran (RBAC — divalidasi di server)</h3>
         <table className="tbl">
-          <thead><tr><th>Peran</th><th>Program/Jadwal</th><th>Berita/Galeri/FAQ</th><th>Peserta/Pendaftaran</th><th>Pengguna</th><th>Backup</th></tr></thead>
+          <thead><tr><th>Peran</th><th>Program/Jadwal</th><th>Berita/Galeri</th><th>Peserta/Pendaftaran</th><th>Pengguna</th><th>Backup</th></tr></thead>
           <tbody>{[
             ["SUPER_ADMIN", "Ya", "Ya", "Ya", "Ya", "Ya"], ["ADMIN", "Ya", "Ya", "Ya", "Tidak", "Tidak"],
             ["OPERATOR", "Tidak", "Tidak", "Ya", "Tidak", "Tidak"], ["EDITOR", "Program saja", "Ya", "Tidak", "Tidak", "Tidak"],

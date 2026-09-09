@@ -1,11 +1,16 @@
-
-import { Mail, MapPin, Phone, Clock3, MessageCircle } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  Phone,
+  Clock3,
+  MessageCircle,
+} from "lucide-react";
 
 const kontak = [
   {
     icon: MapPin,
     title: "Alamat",
-    text: "Kupang, Nusa Tenggara Timur, Indonesia",
+    text: "Jl. Thamrin No. 03, Kelurahan Kayu Putih, Kecamatan Oebobo, Kota Kupang, Nusa Tenggara Timur, Indonesia",
   },
   {
     icon: Phone,
@@ -15,14 +20,18 @@ const kontak = [
   {
     icon: Mail,
     title: "Email",
-    text: "Gunakan email resmi BPVP Kupang untuk kebutuhan informasi dan layanan.",
+    text: "bpvpkupang@gmail.com",
+    href: "mailto:bpvpkupang@gmail.com",
   },
   {
     icon: Clock3,
     title: "Jam Pelayanan",
-    text: "Senin–Jumat, mengikuti jam pelayanan kerja.",
+    text: "Senin–Kamis: 08.00–16.00\nJumat: 08.00–16.30\nSabtu: 08.00–12.00",
   },
 ];
+
+const GOOGLE_MAPS_URL =
+  "https://maps.app.goo.gl/B2KwAfu8tBSZL2NbA";
 
 export default function KontakPage() {
   return (
@@ -42,7 +51,7 @@ export default function KontakPage() {
 
           <p className="mt-5 max-w-2xl leading-8 text-slate-200">
             Silakan hubungi BPVP Kupang untuk mendapatkan informasi mengenai
-            pelatihan, pendaftaran, kerja sama, dan layanan lainnya.
+            program pelatihan, layanan, dan informasi lainnya.
           </p>
         </div>
       </section>
@@ -67,9 +76,18 @@ export default function KontakPage() {
                     {item.title}
                   </h2>
 
-                  <p className="mt-3 text-sm leading-7 text-slate-600">
-                    {item.text}
-                  </p>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      className="mt-3 block text-sm font-semibold leading-7 text-blue hover:underline"
+                    >
+                      {item.text}
+                    </a>
+                  ) : (
+                    <p className="mt-3 whitespace-pre-line text-sm leading-7 text-slate-600">
+                      {item.text}
+                    </p>
+                  )}
                 </div>
               );
             })}
@@ -77,120 +95,37 @@ export default function KontakPage() {
         </div>
       </section>
 
-      {/* Form */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="container mx-auto px-5 md:px-8">
-          <div className="grid gap-10 lg:grid-cols-2">
-            <div>
-              <span className="text-sm font-extrabold uppercase tracking-wider text-blue">
-                Hubungi Kami
-              </span>
-
-              <h2 className="mt-3 font-display text-3xl font-extrabold text-navy md:text-4xl">
-                Sampaikan Pertanyaan Anda
-              </h2>
-
-              <p className="mt-5 leading-8 text-slate-600">
-                Gunakan formulir ini untuk menyampaikan pertanyaan atau
-                permintaan informasi. Tim BPVP Kupang dapat menindaklanjuti
-                sesuai kebutuhan layanan.
-              </p>
-
-              <div className="mt-7 rounded-3xl bg-navy p-7 text-white">
-                <MessageCircle className="text-orange" size={34} />
-
-                <h3 className="mt-4 font-display text-xl font-bold">
-                  Informasi Pelatihan
-                </h3>
-
-                <p className="mt-3 text-sm leading-7 text-slate-200">
-                  Untuk informasi program dan pendaftaran pelatihan, silakan
-                  gunakan menu Program Pelatihan dan Pendaftaran pada website.
-                </p>
-              </div>
-            </div>
-
-            <form className="rounded-3xl border border-line bg-white p-6 shadow-lg md:p-8">
-              <div className="grid gap-5">
-                <div>
-                  <label className="mb-2 block text-sm font-bold text-navy">
-                    Nama
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Nama lengkap"
-                    className="w-full rounded-xl border border-line px-4 py-3 text-sm outline-none focus:border-blue"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-bold text-navy">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="nama@email.com"
-                    className="w-full rounded-xl border border-line px-4 py-3 text-sm outline-none focus:border-blue"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-bold text-navy">
-                    Subjek
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Perihal"
-                    className="w-full rounded-xl border border-line px-4 py-3 text-sm outline-none focus:border-blue"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-bold text-navy">
-                    Pesan
-                  </label>
-                  <textarea
-                    rows={5}
-                    placeholder="Tulis pertanyaan atau pesan Anda..."
-                    className="w-full resize-none rounded-xl border border-line px-4 py-3 text-sm outline-none focus:border-blue"
-                  />
-                </div>
-
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-orange px-6 py-3 font-bold text-white transition hover:opacity-90"
-                >
-                  <Mail size={18} />
-                  Kirim Pesan
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Placeholder */}
+      {/* Lokasi Google Maps */}
       <section className="bg-sky2 py-16">
         <div className="container mx-auto px-5 md:px-8">
-          <div className="overflow-hidden rounded-3xl bg-navy p-8 text-center text-white md:p-14">
-            <MapPin className="mx-auto text-orange" size={45} />
+          <a
+            href={GOOGLE_MAPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block overflow-hidden rounded-3xl bg-navy p-8 text-center text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl md:p-14"
+          >
+            <MapPin
+              className="mx-auto text-orange transition-transform duration-300 group-hover:scale-110"
+              size={45}
+            />
 
             <h2 className="mt-5 font-display text-3xl font-extrabold">
-              BPVP Kupang
+              Satpel BPVP Kupang
             </h2>
 
             <p className="mx-auto mt-3 max-w-xl leading-7 text-slate-200">
-              Kupang, Nusa Tenggara Timur, Indonesia
+              Jl. Thamrin No. 03, Kelurahan Kayu Putih,
+              Kecamatan Oebobo, Kota Kupang,
+              Nusa Tenggara Timur, Indonesia
             </p>
 
-            <p className="mt-5 text-sm text-slate-300">
-              Peta lokasi dapat diintegrasikan setelah alamat resmi BPVP
-              ditetapkan pada data website.
-            </p>
-          </div>
+            <div className="mt-6 inline-flex items-center gap-2 rounded-xl bg-orange px-5 py-3 font-bold text-white transition-colors group-hover:bg-orange/90">
+              <MapPin size={18} />
+              Buka Lokasi di Google Maps
+            </div>
+          </a>
         </div>
       </section>
     </div>
   );
 }
-

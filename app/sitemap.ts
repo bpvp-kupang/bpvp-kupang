@@ -26,14 +26,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/pendaftaran",
     "/cek-status",
     "/rekomendasi",
-    "/alumni",
     "/dunia-kerja",
     "/lowongan",
     "/mitra",
     "/instruktur",
     "/berita",
     "/galeri",
-    "/faq",
     "/kontak",
   ];
 

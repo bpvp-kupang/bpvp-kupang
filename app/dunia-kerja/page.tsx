@@ -6,10 +6,9 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Dunia Kerja", description: "Menghubungkan hasil pelatihan BPVP Kupang dengan kebutuhan dunia kerja dan industri." };
 
 export default async function DuniaKerjaPage() {
-  const [partners, jobs, alumniCounts] = await Promise.all([
+  const [partners, jobs] = await Promise.all([
     prisma.partner.findMany(),
     prisma.jobOpportunity.findMany({ where: { status: "aktif" } }),
-    prisma.alumni.groupBy({ by: ["afterStatus"], _count: true }),
   ]);
   const byCat = partners.reduce<Record<string, number>>((acc, p) => { acc[p.category] = (acc[p.category] || 0) + 1; return acc; }, {});
 

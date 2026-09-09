@@ -66,24 +66,6 @@ export const PANELS: Record<string, PanelCfg> = {
     ],
     cols: [{ k: "name", l: "Nama" }, { k: "field", l: "Bidang" }, { k: "experience", l: "Pengalaman" }, { k: "status", l: "Status", t: "badge" }],
   },
-  alumni: {
-    title: "Alumni", res: "alumni",
-    fields: [
-      { k: "name", l: "Nama", t: "text", req: true },
-      { k: "programId", l: "Program", t: "program", req: true },
-      { k: "year", l: "Tahun lulus", t: "num", req: true },
-      { k: "afterStatus", l: "Status setelah lulus", t: "sel", opts: AFTER, req: true },
-      { k: "job", l: "Pekerjaan", t: "text" },
-      { k: "business", l: "Usaha", t: "text" },
-      { k: "story", l: "Cerita sukses", t: "area", req: true },
-      { k: "image", l: "Foto", t: "img" },
-      { k: "published", l: "Disetujui dipublikasikan di situs publik", t: "check" },
-    ],
-    cols: [
-      { k: "name", l: "Nama" }, { k: "program.name", l: "Program" }, { k: "year", l: "Tahun" },
-      { k: "afterStatus", l: "Status", t: "badge" }, { k: "published", l: "Publik", t: "check" },
-    ],
-  },
   mitra: {
     title: "Mitra Industri", res: "partners",
     fields: [
@@ -131,15 +113,5 @@ export const PANELS: Record<string, PanelCfg> = {
       { k: "status", l: "Status", t: "sel", opts: ["aktif", "nonaktif"] },
     ],
     cols: [{ k: "position", l: "Posisi" }, { k: "company", l: "Perusahaan" }, { k: "location", l: "Lokasi" }, { k: "deadline", l: "Batas", t: "date" }, { k: "status", l: "Status", t: "badge" }],
-  },
-  faq: {
-    title: "FAQ", res: "faq",
-    fields: [
-      { k: "question", l: "Pertanyaan", t: "text", req: true },
-      { k: "answer", l: "Jawaban", t: "area", req: true },
-      { k: "category", l: "Kategori", t: "sel", opts: ["Umum", "Pendaftaran", "Seleksi", "Pelatihan", "Sertifikasi", "Dunia Kerja"], req: true },
-      { k: "status", l: "Status", t: "sel", opts: ["aktif", "nonaktif"] },
-    ],
-    cols: [{ k: "question", l: "Pertanyaan" }, { k: "category", l: "Kategori" }, { k: "status", l: "Status", t: "badge" }],
   },
 };

@@ -26,6 +26,14 @@ export default function PendaftaranForm({ programs, openBatches, preselect }: { 
     if (!/^\d{16}$/.test(String(d.nik))) return setErr("NIK harus 16 digit angka.");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(d.email))) return setErr("Email tidak valid.");
     if (!/^(\+62|62|0)8\d{7,11}$/.test(String(d.whatsapp).replace(/[\s-]/g, ""))) return setErr("Nomor WhatsApp tidak valid.");
+    if (d.tanggalLahir) {
+      const birth = new Date(`${String(d.tanggalLahir)}T00:00:00`);
+      const now = new Date();
+      let age = now.getFullYear() - birth.getFullYear();
+      const md = now.getMonth() - birth.getMonth();
+      if (md < 0 || (md === 0 && now.getDate() < birth.getDate())) age--;
+      if (!Number.isFinite(age) || age < 31) return setErr("Usia minimal peserta adalah 31 tahun.");
+    }
     if (!d.program_id || !d.batch_id) return setErr("Pilih program dan batch.");
     if (!d.setuju) return setErr("Centang pernyataan kebenaran data.");
     setBusy(true);
@@ -64,7 +72,7 @@ export default function PendaftaranForm({ programs, openBatches, preselect }: { 
       </div>
       <div className="grid sm:grid-cols-2 gap-4">
         <div><label className="label" htmlFor="tempatLahir">Tempat lahir <i className="text-bad not-italic">*</i></label><input id="tempatLahir" name="tempatLahir" className="input" required /></div>
-        <div><label className="label" htmlFor="tanggalLahir">Tanggal lahir <i className="text-bad not-italic">*</i></label><input id="tanggalLahir" name="tanggalLahir" type="date" className="input" required /></div>
+        <div><label className="label" htmlFor="tanggalLahir">Tanggal lahir <i className="text-bad not-italic">*</i></label><input id="tanggalLahir" name="tanggalLahir" type="date" className="input" max={new Date(new Date().setFullYear(new Date().getFullYear() - 31)).toISOString().slice(0, 10)} required /></div>
       </div>
       <div className="grid sm:grid-cols-2 gap-4">
         <div><label className="label" htmlFor="gender">Jenis kelamin <i className="text-bad not-italic">*</i></label>

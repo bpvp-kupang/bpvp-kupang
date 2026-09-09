@@ -44,7 +44,7 @@ export default function AdminLogin() {
             </div>
           </div>
           <p className="text-mut text-[13px] leading-relaxed mb-6">
-            Masuk untuk mengelola program pelatihan, jadwal, pendaftar, berita, alumni, dan data layanan BPVP Kupang.
+            Masuk untuk mengelola program pelatihan, jadwal, pendaftar, berita, dan data layanan BPVP Kupang.
           </p>
           <form onSubmit={submit} className="grid gap-4">
             <div>

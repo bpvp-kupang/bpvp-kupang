@@ -1,29 +1,19 @@
-
 import Link from "next/link";
 import { ArrowRight, CalendarDays, Newspaper } from "lucide-react";
+import { prisma } from "@/lib/prisma";
 
-const berita = [
-  {
-    title: "Pelatihan Vokasi untuk Meningkatkan Kompetensi Tenaga Kerja NTT",
-    category: "Pelatihan",
-    date: "Informasi BPVP Kupang",
-    text: "Informasi terbaru mengenai kegiatan pelatihan vokasi dan pengembangan kompetensi masyarakat.",
-  },
-  {
-    title: "Membangun SDM Kompeten, Produktif dan Siap Kerja",
-    category: "Kegiatan",
-    date: "Kegiatan BPVP Kupang",
-    text: "Berbagai kegiatan BPVP Kupang dalam mendukung peningkatan kualitas sumber daya manusia.",
-  },
-  {
-    title: "Kolaborasi dengan Dunia Kerja untuk Penguatan Pelatihan",
-    category: "Kemitraan",
-    date: "Informasi Kemitraan",
-    text: "Kerja sama dengan dunia usaha dan dunia industri menjadi bagian penting dalam pengembangan pelatihan.",
-  },
-];
+export const dynamic = "force-dynamic";
 
-export default function BeritaPage() {
+export default async function BeritaPage() {
+  const berita = await prisma.news.findMany({
+    where: {
+      status: "publish",
+    },
+    orderBy: {
+      publishedAt: "desc",
+    },
+  });
+
   return (
     <div>
       {/* Hero */}
@@ -49,57 +39,83 @@ export default function BeritaPage() {
       {/* Content */}
       <section className="bg-sky2 py-16 md:py-20">
         <div className="container mx-auto px-5 md:px-8">
-          <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-            <div>
-              <span className="text-sm font-extrabold uppercase tracking-wider text-blue">
-                Update
-              </span>
+          <div className="mb-10">
+            <span className="text-sm font-extrabold uppercase tracking-wider text-blue">
+              Update
+            </span>
 
-              <h2 className="mt-2 font-display text-3xl font-extrabold text-navy">
-                Berita & Kegiatan
-              </h2>
-            </div>
+            <h2 className="mt-2 font-display text-3xl font-extrabold text-navy">
+              Berita & Kegiatan
+            </h2>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
-            {berita.map((item, index) => (
-              <article
-                key={index}
-                className="overflow-hidden rounded-3xl border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-              >
-                <div className="grid h-52 place-items-center bg-navy">
-                  <Newspaper className="text-orange" size={55} />
-                </div>
+          {berita.length === 0 ? (
+            <div className="rounded-3xl border border-line bg-white p-10 text-center">
+              <Newspaper className="mx-auto text-slate-400" size={50} />
 
-                <div className="p-6">
-                  <span className="rounded-full bg-sky2 px-3 py-1 text-xs font-extrabold text-blue">
-                    {item.category}
-                  </span>
+              <h3 className="mt-4 font-display text-xl font-extrabold text-navy">
+                Belum ada berita
+              </h3>
 
-                  <h3 className="mt-4 font-display text-xl font-extrabold leading-snug text-navy">
-                    {item.title}
-                  </h3>
-
-                  <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-slate-500">
-                    <CalendarDays size={15} />
-                    {item.date}
+              <p className="mt-2 text-sm text-slate-600">
+                Informasi terbaru BPVP Kupang akan ditampilkan di halaman ini.
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-6 lg:grid-cols-3">
+              {berita.map((item) => (
+                <article
+                  key={item.id}
+                  className="overflow-hidden rounded-3xl border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <div className="grid h-52 place-items-center bg-navy">
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <Newspaper className="text-orange" size={55} />
+                    )}
                   </div>
 
-                  <p className="mt-4 text-sm leading-7 text-slate-600">
-                    {item.text}
-                  </p>
+                  <div className="p-6">
+                    <span className="rounded-full bg-sky2 px-3 py-1 text-xs font-extrabold text-blue">
+                      {item.category}
+                    </span>
 
-                  <button
-                    type="button"
-                    className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-blue hover:text-navy"
-                  >
-                    Baca selengkapnya
-                    <ArrowRight size={16} />
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+                    <h3 className="mt-4 font-display text-xl font-extrabold leading-snug text-navy">
+                      {item.title}
+                    </h3>
+
+                    <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-slate-500">
+                      <CalendarDays size={15} />
+                      {new Date(item.publishedAt).toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </div>
+
+                    <p className="mt-4 text-sm leading-7 text-slate-600">
+                      {item.content.length > 180
+                        ? `${item.content.substring(0, 180)}...`
+                        : item.content}
+                    </p>
+
+                    <Link
+                      href={`/berita/${item.slug}`}
+                      className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-blue hover:text-navy"
+                    >
+                      Baca selengkapnya
+                      <ArrowRight size={16} />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -112,8 +128,8 @@ export default function BeritaPage() {
             </h2>
 
             <p className="mx-auto mt-4 max-w-xl leading-7 text-slate-600">
-              Dapatkan informasi mengenai pelatihan, kegiatan, peluang kerja,
-              dan berbagai layanan BPVP Kupang.
+              Dapatkan informasi mengenai pelatihan, kegiatan, dan berbagai
+              layanan BPVP Kupang.
             </p>
 
             <Link
@@ -129,4 +145,3 @@ export default function BeritaPage() {
     </div>
   );
 }
-

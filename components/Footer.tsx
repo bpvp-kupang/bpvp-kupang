@@ -19,7 +19,7 @@ export default function Footer() {
         </div>
         <div><h4 className="text-white text-[15px] font-display mb-4">Layanan</h4>
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/program">Program Pelatihan</Link>
-          <Link className="block py-1 text-[13.5px] hover:text-white" href="/jadwal">Jadwal & Pendaftaran</Link>
+          <Link className="block py-1 text-[13.5px] hover:text-white" href="/jadwal">Jadwal Pelatihan</Link>
         </div>
         <div><h4 className="text-white text-[15px] font-display mb-4">Informasi</h4>
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/profil">Mengenal BPVP</Link>
@@ -28,9 +28,8 @@ export default function Footer() {
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/admin">Login Admin</Link>
         </div>
         <div><h4 className="text-white text-[15px] font-display mb-4">Kontak</h4>
-          <p className="text-[13px]">Jl. Penfui Timur, Kota Kupang, Nusa Tenggara Timur</p>
-          <p className="text-[13px] mt-2">(0380) 000-0000<br />info@bpvpkupang.com</p>
-          <p className="text-[13px] mt-2">Senin–Jumat · 08.00–16.00 WITA</p>
+          <p className="text-[13px]">Jl. Thamrin No. 03, Kelurahan Kayu Putih, Kecamatan Oebobo, Kota Kupang, Nusa Tenggara Timur, Indonesia</p>
+<p className="text-[13px] mt-2">bpvpkupang@gmail.com<br />Senin–Kamis · 08.00–16.00 WITA<br />Jumat · 08.00–16.30 WITA<br />Sabtu · 08.00–12.00 WITA</p>
         </div>
       </div>
       <div className="border-t border-white/10">

@@ -54,7 +54,6 @@ export default async function DuniaKerjaPage() {
 
       <div className="bg-navy text-white rounded-3xl p-10 flex flex-wrap items-center justify-between gap-6">
         <h2 className="text-white text-[clamp(24px,3vw,34px)] max-w-[520px]">Lihat peluang kerja &amp; magang yang sedang dibuka.</h2>
-        <Link href="/lowongan" className="btn-o">Buka halaman lowongan<ArrowRight size={17} /></Link>
       </div>
     </section>
   );

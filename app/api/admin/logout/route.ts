@@ -3,7 +3,7 @@ import { clearCookie, getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function POST() {
-  const s = getSession();
+const s = await getSession();
   if (s) {
     await prisma.auditLog.create({
       data: { actor: s.name, action: "Logout Admin", detail: "Logout" },

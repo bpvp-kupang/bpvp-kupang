@@ -1,14 +1,52 @@
-﻿import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { NextRequest, NextResponse } from "next/server";
+import { put } from "@vercel/blob";
 import crypto from "crypto";
+import { getSession } from "@/lib/auth";
+import { can } from "@/lib/perms";
 
 export const runtime = "nodejs";
 
-const MAX_SIZE = 2 * 1024 * 1024; // 2 MB
+const MAX_SIZE = 2 * 1024 * 1024;
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const session = await getSession();
+
+    if (!session) {
+      return NextResponse.json(
+        { error: "Sesi berakhir, silakan masuk kembali." },
+        { status: 401 }
+      );
+    }
+
+    if (!can(session.role, "upload")) {
+      return NextResponse.json(
+        { error: "Anda tidak memiliki izin mengunggah gambar." },
+        { status: 403 }
+      );
+    }
+
+    const origin = req.headers.get("origin");
+
+    if (origin) {
+      try {
+        const originHost = new URL(origin).host;
+        const requestHost = req.headers.get("host");
+
+        if (!requestHost || originHost !== requestHost) {
+          return NextResponse.json(
+            { error: "Origin tidak diizinkan." },
+            { status: 403 }
+          );
+        }
+      } catch {
+        return NextResponse.json(
+          { error: "Origin tidak valid." },
+          { status: 403 }
+        );
+      }
+    }
+
     const body = await req.json();
 
     if (!body?.data || typeof body.data !== "string") {
@@ -32,6 +70,13 @@ export async function POST(req: Request) {
       );
     }
 
+    const mimeMap: Record<string, string> = {
+      jpeg: "image/jpeg",
+      jpg: "image/jpeg",
+      png: "image/png",
+      webp: "image/webp",
+    };
+
     const extMap: Record<string, string> = {
       jpeg: "jpg",
       jpg: "jpg",
@@ -39,8 +84,25 @@ export async function POST(req: Request) {
       webp: "webp",
     };
 
-    const ext = extMap[match[1]];
+    const format = match[1];
+    const mime = mimeMap[format];
+    const ext = extMap[format];
+
+    if (!mime || !ext) {
+      return NextResponse.json(
+        { error: "Format gambar tidak didukung." },
+        { status: 400 }
+      );
+    }
+
     const buffer = Buffer.from(match[2], "base64");
+
+    if (!buffer.length) {
+      return NextResponse.json(
+        { error: "File gambar kosong." },
+        { status: 400 }
+      );
+    }
 
     if (buffer.length > MAX_SIZE) {
       return NextResponse.json(
@@ -49,31 +111,32 @@ export async function POST(req: Request) {
       );
     }
 
-    const uploadDir = path.join(
-      process.cwd(),
-      "public",
-      "program"
-    );
-
-    await fs.mkdir(uploadDir, { recursive: true });
-
-    const filename = `program-${Date.now()}-${crypto
-      .randomBytes(4)
+    const filename = `program/program-${Date.now()}-${crypto
+      .randomBytes(8)
       .toString("hex")}.${ext}`;
 
-    const filepath = path.join(uploadDir, filename);
-
-    await fs.writeFile(filepath, buffer);
+    const blob = await put(
+      filename,
+      new Blob([buffer], { type: mime }),
+      {
+        access: "public",
+        addRandomSuffix: false,
+        contentType: mime,
+      }
+    );
 
     return NextResponse.json({
       ok: true,
-      url: `/program/${filename}`,
+      url: blob.url,
     });
   } catch (error) {
     console.error("UPLOAD ERROR:", error);
 
     return NextResponse.json(
-      { error: "Gagal mengunggah gambar." },
+      {
+        error:
+          "Gagal mengunggah gambar. Pastikan Vercel Blob sudah terhubung.",
+      },
       { status: 500 }
     );
   }

@@ -22,10 +22,12 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
+
   const p = await prisma.trainingProgram.findUnique({
-    where: { id: params.slug },
+    where: { id: slug },
   });
 
   if (!p) {
@@ -41,10 +43,12 @@ export async function generateMetadata({
 export default async function ProgramDetail({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
+
   const p = await prisma.trainingProgram.findUnique({
-    where: { id: params.slug },
+    where: { id: slug },
     include: {
       batches: {
         orderBy: {
@@ -158,19 +162,31 @@ export default async function ProgramDetail({
               >
                 <h4 className="flex items-center gap-2 text-[15px] mb-3">
                   {icon === "list-checks" && (
-                    <ListChecks size={18} className="text-blue shrink-0" />
+                    <ListChecks
+                      size={18}
+                      className="text-blue shrink-0"
+                    />
                   )}
 
                   {icon === "brain" && (
-                    <Brain size={18} className="text-blue shrink-0" />
+                    <Brain
+                      size={18}
+                      className="text-blue shrink-0"
+                    />
                   )}
 
                   {icon === "briefcase" && (
-                    <Briefcase size={18} className="text-blue shrink-0" />
+                    <Briefcase
+                      size={18}
+                      className="text-blue shrink-0"
+                    />
                   )}
 
                   {icon === "store" && (
-                    <Store size={18} className="text-blue shrink-0" />
+                    <Store
+                      size={18}
+                      className="text-blue shrink-0"
+                    />
                   )}
 
                   {title}
@@ -211,7 +227,7 @@ export default async function ProgramDetail({
             </div>
           )}
 
-          {/* STATUS PENDAFTARAN - HANYA SATU */}
+          {/* STATUS PENDAFTARAN */}
           {active && batchStatus(active) === "open" && (
             <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-green-700 via-green-600 to-emerald-600 text-white px-5 py-3.5 flex items-center justify-center gap-2.5 font-bold text-[14px] shadow-md shadow-green-600/20 border border-green-500">
               <ClipboardCheck
@@ -340,16 +356,7 @@ export default async function ProgramDetail({
             </ul>
           </div>
 
-          {/* LOWONGAN */}
-          {jobCount > 0 && (
-            <Link
-              href="/lowongan"
-              className="btn-out btn-sm w-full"
-            >
-              <Briefcase size={15} />
-              {jobCount} lowongan di bidang ini
-            </Link>
-          )}
+          
         </aside>
       </div>
     </section>

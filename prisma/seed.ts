@@ -116,13 +116,13 @@ const SERT =
 
 /*
  * Semua program:
- * - Usia minimal 31 tahun
+ * - Usia maksimal 31 tahun
  * - Pendidikan terakhir minimal SD
  * - Tidak sedang mengikuti pelatihan lain
  * - Data pendaftaran harus benar
  */
 const REQUIREMENTS = () => [
-  "Usia minimal 31 tahun",
+  "Usia maksimal 31 tahun",
   "Pendidikan terakhir minimal SD",
   "Tidak sedang mengikuti pelatihan lain (tidak rangkap)",
   "Data pendaftaran diisi dengan benar",
@@ -434,7 +434,7 @@ async function main() {
     "SINKRONISASI PROGRAM BPVP KUPANG SELESAI"
   );
   console.log("Program aktif : 10");
-  console.log("Usia minimal  : 31 tahun");
+  console.log("Usia maksimal : 31 tahun");
   console.log("Pendidikan    : minimal SD");
   console.log("Kuota         : 16 peserta/program");
   console.log("Pendaftaran   : 1 Jan - 31 Des 2026");

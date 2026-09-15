@@ -20,9 +20,6 @@ export default function Footer() {
         <div><h4 className="text-white text-[15px] font-display mb-4">Layanan</h4>
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/program">Program Pelatihan</Link>
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/jadwal">Jadwal & Pendaftaran</Link>
-          <Link className="block py-1 text-[13.5px] hover:text-white" href="/pendaftaran">Pendaftaran Online</Link>
-          <Link className="block py-1 text-[13.5px] hover:text-white" href="/cek-status">Cek Status Pendaftaran</Link>
-          <Link className="block py-1 text-[13.5px] hover:text-white" href="/lowongan">Lowongan & Magang</Link>
         </div>
         <div><h4 className="text-white text-[15px] font-display mb-4">Informasi</h4>
           <Link className="block py-1 text-[13.5px] hover:text-white" href="/profil">Mengenal BPVP</Link>

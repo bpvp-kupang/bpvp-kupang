@@ -14,10 +14,14 @@ export const metadata = {
 export default async function JadwalPage({
   searchParams,
 }: {
-  searchParams: { tahun?: string; bidang?: string };
+  searchParams: Promise<{
+    tahun?: string;
+    bidang?: string;
+  }>;
 }) {
-  const bidang = searchParams.bidang || "all";
-
+  const { tahun, bidang: bidangParam } = await searchParams;
+  const bidang = bidangParam || "all";
+  
   // Ambil semua jadwal pelatihan tahun 2026
   const all = await prisma.trainingBatch.findMany({
     where: {

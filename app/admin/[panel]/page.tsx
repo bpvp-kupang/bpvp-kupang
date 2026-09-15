@@ -1,31 +1,28 @@
-
 "use client";
 
 import CrudPanel from "@/components/admin/CrudPanel";
 import { PANELS } from "@/lib/panels";
 
-export default function PanelPage({
-  params,
+export default async function PanelPage({
+params,
 }: {
-  params: { panel: string };
+params: Promise<{ panel: string }>;
 }) {
-  const cfg = PANELS[params.panel];
+const { panel } = await params;
+const cfg = PANELS[panel];
 
-  if (!cfg) {
-    return (
-      <p className="text-mut">
-        Panel tidak ditemukan.
-      </p>
-    );
-  }
+if (!cfg) {
+return ( <p className="text-mut">
+Panel tidak ditemukan. </p>
+);
+}
 
-  return (
-    <CrudPanel
-      key={params.panel}
-      title={cfg.title}
-      res={cfg.res}
-      fields={cfg.fields}
-      cols={cfg.cols}
-    />
-  );
+return ( <CrudPanel
+   key={panel}
+   title={cfg.title}
+   res={cfg.res}
+   fields={cfg.fields}
+   cols={cfg.cols}
+ />
+);
 }

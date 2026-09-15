@@ -4,7 +4,7 @@ import { getSession } from "@/lib/auth";
 export const dynamic = "force-dynamic";
 
 export default async function SistemPage() {
-  const s = getSession();
+  const s = await getSession();
   const [users, logs, media] = await Promise.all([
     prisma.user.count(),
     prisma.auditLog.count(),

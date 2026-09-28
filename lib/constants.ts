@@ -5,5 +5,4 @@ export const FIELDS: Record<string, { c: string; icon: string }> = {
   Otomotif: { c: "#B3512E", icon: "wrench" },
   Teknik: { c: "#C98A0A", icon: "hammer" },
 };
-export const SITE =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://bpvp-kupang-qvf9.vercel.app";
+export const SITE = "https://bpvp-kupang-qvf9.vercel.app";

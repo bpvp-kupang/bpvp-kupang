@@ -19,21 +19,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const statik = [
-    "",
-    "/profil",
-    "/program",
-    "/jadwal",
-    "/pendaftaran",
-    "/cek-status",
-    "/rekomendasi",
-    "/dunia-kerja",
-    "/lowongan",
-    "/mitra",
-    "/instruktur",
-    "/berita",
-    "/galeri",
-    "/kontak",
-  ];
+  "",
+  "/profil",
+  "/program",
+  "/jadwal",
+  "/berita",
+  "/galeri",
+  "/kontak",
+];
 
   return [
     ...statik.map((s) => ({

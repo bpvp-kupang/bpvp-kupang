@@ -390,7 +390,7 @@ export default function CrudPanel({
 
   async function uploadImg(file: File, k: string) {
     if (file.size > 2 * 1024 * 1024) {
-      setErr("Ukuran gambar maksimal 2 MB.");
+      setErr("Ukuran gambar maksimal 5 MB.");
       return;
     }
 

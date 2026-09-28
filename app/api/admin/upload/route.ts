@@ -6,7 +6,7 @@ import { can } from "@/lib/perms";
 
 export const runtime = "nodejs";
 
-const MAX_SIZE = 2 * 1024 * 1024;
+const MAX_SIZE = 5 * 1024 * 1024;
 
 export async function POST(req: NextRequest) {
   try {
@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
 
     if (buffer.length > MAX_SIZE) {
       return NextResponse.json(
-        { error: "Ukuran gambar maksimal 2 MB." },
+        { error: "Ukuran gambar maksimal 5 MB." },
         { status: 400 }
       );
     }

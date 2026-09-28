@@ -89,15 +89,21 @@ export const PANELS: Record<string, PanelCfg> = {
     ],
     cols: [{ k: "title", l: "Judul" }, { k: "category", l: "Kategori" }, { k: "publishedAt", l: "Tanggal", t: "date" }, { k: "status", l: "Status", t: "badge" }],
   },
-  galeri: {
-    title: "Galeri", res: "gallery",
-    fields: [
-      { k: "title", l: "Judul", t: "text", req: true },
-      { k: "category", l: "Kategori", t: "sel", opts: GAL_KAT, req: true },
-      { k: "image", l: "Foto", t: "img", req: true },
-    ],
-    cols: [{ k: "image", l: "Foto", t: "img" }, { k: "title", l: "Judul" }, { k: "category", l: "Kategori" }],
-  },
+ galeri: {
+  title: "Galeri", res: "gallery",
+  fields: [
+    { k: "title", l: "Judul", t: "text", req: true },
+    { k: "category", l: "Kategori", t: "sel", opts: GAL_KAT, req: true },
+    { k: "image", l: "Foto", t: "img", req: true },
+    { k: "date", l: "Tanggal", t: "date", req: true },
+  ],
+  cols: [
+    { k: "image", l: "Foto", t: "img" },
+    { k: "title", l: "Judul" },
+    { k: "category", l: "Kategori" },
+    { k: "date", l: "Tanggal", t: "date" },
+  ],
+},
   lowongan: {
     title: "Lowongan / Magang", res: "jobs",
     fields: [

@@ -12,6 +12,7 @@ const LINKS = [
   ["/program", "Program"],
   ["/jadwal", "Jadwal"],
   ["/berita", "Berita"],
+  ["/galeri", "Galeri"],
   ["/kontak", "Kontak"],
 ];
 
